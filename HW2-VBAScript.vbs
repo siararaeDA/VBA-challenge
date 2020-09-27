@@ -62,9 +62,15 @@ Sub yearPriceDifferential():
             priceChange = priceClose - priceOpen
             ' Write the change in price in the output table
             Cells(outputRow, 10).Value = priceChange
-            ' Get the opening price of the next ticker
+            ' Format the output
+            If priceChange > 0 Then
+                Cells(outputRow, 10).Interior.ColorIndex = 4
+            Else
+                Cells(outputRow, 10).Interior.ColorIndex = 3
+            End If
+            ' Get the opening price of the next stock
             priceOpen = Cells(i + 1, 3).Value
-            ' Increment the output row for the next ticker
+            ' Increment the output row for the next stock
             outputRow = outputRow + 1
         End If
     
