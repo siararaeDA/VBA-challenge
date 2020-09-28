@@ -73,7 +73,7 @@ Sub yearPriceDifferential():
                 Cells(outputRow, 10).Interior.ColorIndex = 3
             End If
             ' Get the percent change over the year
-            percentChange = ((priceClose - priceOpen) / priceOpen)
+            percentChange = (priceChange / priceOpen)
             ' Write the change percentage in the output
             Cells(outputRow, 11).Value = Format(percentChange, "Percent")
             ' Get the opening price of the next stock
