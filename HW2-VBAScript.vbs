@@ -7,6 +7,7 @@ Sub tickerOutput():
     
     ' Initialize variables
     outputRow = 2
+    ticker = ""
 
     ' Set the column header
     Range("I1").Value = "Ticker"
@@ -35,6 +36,7 @@ Sub yearPriceDifferential():
     Dim priceOpen As Double
     Dim priceClose As Double
     Dim priceChange As Double
+    Dim percentChange As Double
     Dim lastRow As Long
     Dim outputRow As Long
 
@@ -43,10 +45,13 @@ Sub yearPriceDifferential():
     priceOpen = Range("C2").Value
     priceClose = 0
     priceChange = 0
+    percentChange = 0
     
-    ' Set the column header
+    ' Set the column headers
     Range("J1").Value = "Yearly Change"
     Range("J1").Font.Bold = True
+    Range("K1").Value = "Percent Change"
+    Range("K1").Font.Bold = True
 
     ' Find the end of the data
     lastRow = Cells(Rows.Count, 1).End(xlUp).Row
@@ -67,6 +72,10 @@ Sub yearPriceDifferential():
             Else
                 Cells(outputRow, 10).Interior.ColorIndex = 3
             End If
+            ' Get the percent change over the year
+            percentChange = ((priceClose - priceOpen) / priceOpen)
+            ' Write the change percentage in the output
+            Cells(outputRow, 11).Value = Format(percentChange, "Percent")
             ' Get the opening price of the next stock
             priceOpen = Cells(i + 1, 3).Value
             ' Increment the output row for the next stock
