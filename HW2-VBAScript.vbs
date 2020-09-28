@@ -35,7 +35,6 @@ Sub yearPriceDifferential():
     Dim priceOpen As Double
     Dim priceClose As Double
     Dim priceChange As Double
-    Dim ticker As String
     Dim lastRow As Long
     Dim outputRow As Long
 
