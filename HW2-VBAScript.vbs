@@ -85,3 +85,67 @@ Sub yearPriceDifferential():
     Next i
 
 End Sub
+
+Sub greatestIncrease():
+
+    Dim currentNum As Double
+    Dim nextNum As Double
+    Dim maxIncrease As Double
+    Dim maxIncreaseTicker As String
+    Dim lastRow As Double
+    
+    currentNum = 0
+    nextNum = 0
+    maxIncrease = 0
+    
+    lastRow = Cells(Rows.Count, 9).End(xlUp).Row
+    
+    'MsgBox (Cells(2, 11).Value)
+    
+    For i = 2 To lastRow
+    
+        currentNum = Cells(i, 11).Value
+        If currentNum > maxIncrease Then
+            maxIncrease = currentNum
+            maxIncreaseTicker = Cells(i, 9).Value
+        End If
+        
+    Next i
+    
+    Range("O2").Value = "Greatest Percent Increase:"
+    Range("P2").Value = maxIncreaseTicker
+    Range("Q2").Value = Format(maxIncrease, "Percent")
+
+End Sub
+
+Sub greatestDecrease():
+
+    Dim currentNum As Double
+    Dim nextNum As Double
+    Dim maxDecrease As Double
+    Dim maxDecreaseTicker As String
+    Dim lastRow As Double
+    
+    currentNum = 0
+    nextNum = 0
+    maxDecrease = 0
+    
+    lastRow = Cells(Rows.Count, 9).End(xlUp).Row
+    
+    'MsgBox (Cells(2, 11).Value)
+    
+    For i = 2 To lastRow
+    
+        currentNum = Cells(i, 11).Value
+        If currentNum < maxDecrease Then
+            maxDecrease = currentNum
+            maxDecreaseTicker = Cells(i, 9).Value
+        End If
+        
+    Next i
+    
+    Range("O3").Value = "Greatest Percent Decrease:"
+    Range("P3").Value = maxDecreaseTicker
+    Range("Q3").Value = Format(maxDecrease, "Percent")
+
+End Sub
