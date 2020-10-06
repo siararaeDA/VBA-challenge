@@ -1,7 +1,9 @@
 Sub findAndFormatStockData():
 
-    ' Declare variables
+    ' Worksheet variables
     Dim ws As Worksheet
+
+    ' Declare Variables
     Dim ticker As String
     Dim priceOpen As Double
     Dim priceClose As Double
@@ -13,83 +15,82 @@ Sub findAndFormatStockData():
     
     For Each ws In Worksheets
 
-        ' Initialize variables
-        ticker = ""
-        outputRow = 2
-        priceOpen = Range("C2").Value
-        priceClose = 0
-        priceChange = 0
-        percentChange = 0
-        stockVolume = 0
+    ' Initialize variables
+    ticker = ""
+    outputRow = 2
+    priceOpen = Range("C2").Value
+    priceClose = 0
+    priceChange = 0
+    percentChange = 0
+    stockVolume = 0
+    
+    ' Set the column headers
+    ws.Range("I1").Value = "Ticker"
+    ws.Range("I1").Font.Bold = True
+    ws.Range("J1").Value = "Yearly Change"
+    ws.Range("J1").Font.Bold = True
+    ws.Range("K1").Value = "Percent Change"
+    ws.Range("K1").Font.Bold = True
+    ws.Range("L1").Value = "Total Stock Volume"
+    ws.Range("L1").Font.Bold = True
 
-        ' Set the column headers
-        ws.Range("I1").Value = "Ticker"
-        ws.Range("I1").Font.Bold = True
-        ws.Range("J1").Value = "Yearly Change"
-        ws.Range("J1").Font.Bold = True
-        ws.Range("K1").Value = "Percent Change"
-        ws.Range("K1").Font.Bold = True
-        ws.Range("L1").Value = "Total Stock Volume"
-        ws.Range("L1").Font.Bold = True
-
-        ' Find the end of the data
-        lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
-
-        ' Loop through tickers to find starting and closing prices, and the price differential
-        For i = 2 To lastRow
-
-            ' Keep a tally of the stock volume
-            stockVolume = stockVolume + ws.Cells(i, 7).Value
-
-            If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
-                ' Get the ticker value
-                ticker = ws.Cells(i, 1).Value
-                'Output
-                ws.Cells(outputRow, 9).Value = ticker
-                ' Since we've reached the end of a ticker's values and that matches the end of the year, get the closing price.
-                priceClose = ws.Cells(i, 6).Value
-                ' Find the change in price over the year
-                priceChange = priceClose - priceOpen
-                ' Write the change in price in the output table
-                ws.Cells(outputRow, 10).Value = priceChange
-                ' Format the output
-                If priceChange > 0 Then
-                    ws.Cells(outputRow, 10).Interior.ColorIndex = 4
-                Else
-                    ws.Cells(outputRow, 10).Interior.ColorIndex = 3
-                End If
-                ' Get the percent change over the year
-                If priceOpen = 0 Then
-                    ws.Cells(outputRow, 11).Value = 0
-                Else
-                    percentChange = (priceChange / priceOpen)
-                    ' Write the change percentage in the output
-                    ws.Cells(outputRow, 11).Value = Format(percentChange, "Percent")
-                End If
-
-                ' Write the stock volume in the output
-                ws.Cells(outputRow, 12).Value = stockVolume
-                ' Get the opening price of the next stock
-                priceOpen = ws.Cells(i + 1, 3).Value
-                ' Increment the output row for the next stock
-                outputRow = outputRow + 1
-                ' Reset stock volume to zero for next stock
-                stockVolume = 0
+    ' Find the end of the data
+    lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+    
+    ' Loop through tickers to find starting and closing prices, and the price differential
+    For i = 2 To lastRow
+    
+        ' Keep a tally of the stock volume
+        stockVolume = stockVolume + ws.Cells(i, 7).Value
+    
+        If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+            ' Get the ticker value
+            ticker = ws.Cells(i, 1).Value
+            'Output
+            ws.Cells(outputRow, 9).Value = ticker
+            ' Since we've reached the end of a ticker's values and that matches the end of the year, get the closing price.
+            priceClose = ws.Cells(i, 6).Value
+            ' Find the change in price over the year
+            priceChange = priceClose - priceOpen
+            ' Write the change in price in the output table
+            ws.Cells(outputRow, 10).Value = priceChange
+            ' Format the output
+            If priceChange > 0 Then
+                ws.Cells(outputRow, 10).Interior.ColorIndex = 4
+            Else
+                ws.Cells(outputRow, 10).Interior.ColorIndex = 3
             End If
-
-        Next i
-
-        ' Call the bonus functions in each worksheet
-        ws.Select
-        greatestPercentIncrease ws
-        greatestPercentDecrease ws
-        highestVolume ws
-
+            ' Get the percent change over the year
+            If priceOpen = 0 Then
+                ws.Cells(outputRow, 11).Value = 0
+            Else
+                percentChange = (priceChange / priceOpen)
+                ' Write the change percentage in the output
+                ws.Cells(outputRow, 11).Value = Format(percentChange, "Percent")
+            End If
+            
+            ' Write the stock volume in the output
+            ws.Cells(outputRow, 12).Value = stockVolume
+            ' Get the opening price of the next stock
+            priceOpen = ws.Cells(i + 1, 3).Value
+            ' Increment the output row for the next stock
+            outputRow = outputRow + 1
+            ' Reset stock volume to zero for next stock
+            stockVolume = 0
+        End If
+    
+    Next i
+    
+    ws.Select
+    greatestIncrease ws
+    greatestDecrease ws
+    highestVolume ws
+    
     Next ws
 
 End Sub
 
-Sub greatestPercentIncrease(ws As Worksheet):
+Sub greatestIncrease(ws As Worksheet):
 
     Dim currentNum As Double
     Dim nextNum As Double
@@ -123,7 +124,7 @@ Sub greatestPercentIncrease(ws As Worksheet):
 
 End Sub
 
-Sub greatestPercentDecrease(ws As Worksheet):
+Sub greatestDecrease(ws As Worksheet):
 
     Dim currentNum As Double
     Dim nextNum As Double
